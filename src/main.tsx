@@ -4,11 +4,11 @@ import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { Lobby } from './pages/game/Lobby';
-import { Play } from './pages/game/Play/play.tsx';
+import { Lobby } from './pages/game/lobby';
+import { Play } from './pages/game/Playhoge/index.tsx';
 import { GameLayout } from './features/Game/GameContext.tsx';
-import { Character } from './pages/character/index.tsx';
-import { Ranking } from './pages/game/Ranking/ranking.tsx';
+import { Character } from './pages/character';
+import { Ranking } from './pages/game/Rankinghoge/index.tsx';
 
 const router = createBrowserRouter([
   {

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { CardCheckBox } from '../../features/Card/components/CardCheckBox';
+import { CardCheckBox } from '../../../features/Card/components/CardCheckBox';
 
-import { useCards } from '../../features/Card/hooks/useCards';
-import { Card } from '../../features/Card/type';
+import { useCards } from '../../../features/Card/hooks/useCards';
+import { Card } from '../../../features/Card/type';
 // import { Button } from "../../components/Button";
 import { useNavigate } from 'react-router-dom';
-import { useGame } from '../../features/Game/hooks/useGame';
+import { useGame } from '../../../features/Game/hooks/useGame';
 
 // 選択できるカードの最大の数
 const MAX_SELECTABLE_CARD_COUNT = 4;

@@ -9,8 +9,20 @@ const GET_CARDS_URL = 'https://h3nckvn8-8000.asse.devtunnels.ms/api/user/get/';
 
 const MAX_CARD_COUNT = 7;
 
+const DUMMY_CARDS: Card[] = [
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "34",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  }
+];
+
 export const useCards = () => {
-  const [cards, setCards] = useState<Card[] | null>(null);
+  const [cards, setCards] = useState<Card[] | null>(DUMMY_CARDS);
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
 
   const appendSelectedCards = (card: Card) => {
