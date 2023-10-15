@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "prettier --fix --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
+    "lint": "prettier --fix --write \"src/**/*.{ts,tsx,js,jsx,css}\" && eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "preview": "vite preview"
   },
   "dependencies": {
