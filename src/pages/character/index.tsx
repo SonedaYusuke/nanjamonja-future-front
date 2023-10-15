@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { UserNameScene } from './components/scene/UserNameScene';
+import { InputNameScene } from './components/scene/InputNameScene';
 import { OekakiScene } from './components/scene/OekakiScene';
 import { FinishScene } from './components/scene/FinishScene';
 import { useState } from 'react';
@@ -41,7 +41,7 @@ export const Character = () => {
   return (
     <CharacterLayout>
       {scene === 0 && (
-        <UserNameScene
+        <InputNameScene
           next={() => setScene((prev) => prev + 1)}
           setUserName={setUserName}
           isSubmittable={userName.length > 0}

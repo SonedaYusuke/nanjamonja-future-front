@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -13,15 +12,11 @@ import { Ranking } from './pages/game/Ranking/ranking.tsx';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
-  },
-  {
     path: 'game',
     element: <GameLayout />,
     children: [
       {
-        path: 'Lobby',
+        path: 'lobby',
         element: <Lobby />,
       },
       {

@@ -47,6 +47,7 @@ export const useCards = () => {
 
   useEffect(() => {
     (async () => {
+      if (cards) return;
       const res = await fetch(GET_CARDS_URL).then((res) => res.json());
       setCards(res);
     })();

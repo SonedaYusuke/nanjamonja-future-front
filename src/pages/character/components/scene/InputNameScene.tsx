@@ -7,7 +7,7 @@ interface Props {
   isSubmittable: boolean;
 }
 
-export const UserNameScene = ({ next, setUserName, isSubmittable }: Props) => {
+export const InputNameScene = ({ next, setUserName, isSubmittable }: Props) => {
   return (
     <Layout>
       <NextButton onClick={next} disabled={!isSubmittable}>

@@ -5,5 +5,5 @@ export type Card = {
   highest_score: number;
   participant_count: number;
   user_name: string;
-  character_name: string;
+  character_name?: string;
 };
