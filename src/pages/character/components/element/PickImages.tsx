@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const IMAGES_PATHS = [
@@ -68,6 +69,9 @@ const loadImage = async (src: string): Promise<HTMLImageElement> => {
 
 const PartsImage = styled.img`
   height: 10vw;
+  &[data-selected='true'] {
+    background-color: #a5c7e6;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -86,16 +90,21 @@ const ImageWrapper = styled.div`
 `;
 
 export const PickImages = ({ selectImage }: Props) => {
-  const select = async (src: string) => {
-    const image = await loadImage(src);
-    selectImage(image);
-  };
+  const [src, setSrc] = useState<string>()
+
+  useEffect(() => {
+    (async () => {
+      if (!src) return;
+      const image = await loadImage(`/assets/parts/${src}`);
+      selectImage(image);
+    })()
+  }, [src, selectImage])
 
   return (
     <ImageWrapper>
       {IMAGES_PATHS.map((path) => (
-        <button key={path} onClick={() => select(`/assets/parts/${path}`)}>
-          <PartsImage src={`/assets/parts/${path}`} alt="" />
+        <button key={path} onClick={() => setSrc(path)}>
+          <PartsImage src={`/assets/parts/${path}`} alt="" data-selected={src === path} />
         </button>
       ))}
     </ImageWrapper>

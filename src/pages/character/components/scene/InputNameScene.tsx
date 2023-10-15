@@ -32,6 +32,7 @@ const Layout = styled.div`
   }
   > input {
     font-size: 24px;
+    font-weight: 600;
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #000;

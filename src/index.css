@@ -15,11 +15,11 @@
 
 * {
   box-sizing: border-box;
+  font-family: 'Zen Maru Gothic', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 html,
 body {
-  font-family: 'Zen Maru Gothic', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   display: initial;
   padding: 0;
   margin: 0;

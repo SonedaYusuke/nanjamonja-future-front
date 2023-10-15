@@ -236,7 +236,7 @@ export const OekakiScene = ({ next }: Props) => {
         <TabButton onClick={() => setTab('color')}>筆の色</TabButton>
         <TabButton onClick={() => setTab('image')}>パーツ</TabButton>
       </TabWrapper>
-      {tab === 'color' && <PickColors selectColor={setColor} />}
+      {tab === 'color' && <PickColors selectedColor={color} selectColor={setColor} />}
       {tab === 'image' && <PickImages selectImage={setImage} />}
     </CanvasWrapper>
   );

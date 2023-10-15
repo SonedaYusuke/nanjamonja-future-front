@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 interface Props {
+  selectedColor: string;
   selectColor: (color: string) => void;
 }
 
@@ -11,6 +12,9 @@ const ColorPicker = styled.div`
   height: 10vw;
   border-radius: 50%;
   border: 4px solid #fff;
+  &[data-selected='true'] {
+    border: 4px solid #4c9fec;
+  }
 `;
 
 const ColorsWrapper = styled.div`
@@ -25,14 +29,15 @@ const ColorsWrapper = styled.div`
   left: 0;
   bottom: 0;
   background-color: #eee;
+  
 `;
 
-export const PickColors = ({ selectColor }: Props) => {
+export const PickColors = ({ selectedColor, selectColor }: Props) => {
   return (
     <ColorsWrapper>
-      {COLORS.map((color) => (
+      {COLORS.map((color, index) => (
         <button key={color} onClick={() => selectColor(color)}>
-          <ColorPicker style={{ backgroundColor: color }}></ColorPicker>
+          <ColorPicker data-selected={COLORS[index] === selectedColor} style={{ backgroundColor: color }}></ColorPicker>
         </button>
       ))}
     </ColorsWrapper>
