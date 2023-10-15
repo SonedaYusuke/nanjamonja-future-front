@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 interface Props {
   selectColor: (color: string) => void;
@@ -27,14 +27,14 @@ const ColorsWrapper = styled.div`
   background-color: #eee;
 `;
 
-export const PickColors = ({selectColor}: Props) => {
+export const PickColors = ({ selectColor }: Props) => {
   return (
     <ColorsWrapper>
       {COLORS.map((color) => (
         <button key={color} onClick={() => selectColor(color)}>
-          <ColorPicker style={{backgroundColor: color}}></ColorPicker>
+          <ColorPicker style={{ backgroundColor: color }}></ColorPicker>
         </button>
       ))}
     </ColorsWrapper>
-  )
+  );
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SendingScene = () => {
   return (
@@ -17,4 +17,4 @@ const Layout = styled.div`
     font-size: 24px;
     font-weight: 800;
   }
-`
+`;

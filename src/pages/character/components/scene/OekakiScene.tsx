@@ -1,10 +1,10 @@
-import { TouchEvent, useCallback, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { PickColors } from "../element/PickColors";
-import { PickImages } from "../element/PickImages";
-import { NextButton } from "../element/NextButton";
-import { BsFillTrashFill } from 'react-icons/bs'
-import { IoReturnDownBack } from 'react-icons/io5'
+import { TouchEvent, useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { PickColors } from '../element/PickColors';
+import { PickImages } from '../element/PickImages';
+import { NextButton } from '../element/NextButton';
+import { BsFillTrashFill } from 'react-icons/bs';
+import { IoReturnDownBack } from 'react-icons/io5';
 
 interface Props {
   next: (datauri: string) => Promise<void>;
@@ -16,20 +16,20 @@ const CanvasWrapper = styled.div`
   align-items: flex-start;
   padding-top: 18vw;
   height: 100svh;
-`
+`;
 
 const CanvasOekaki = styled.canvas`
   width: 70%;
   border-radius: 20px;
   filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
-`
+`;
 
 const TabButton = styled.button`
   background-color: #fff;
   border-radius: 100vh;
   font-size: 4vw;
   padding: 2vw;
-`
+`;
 
 const TabWrapper = styled.div`
   box-sizing: border-box;
@@ -39,7 +39,7 @@ const TabWrapper = styled.div`
   bottom: 20vw;
   left: 0;
   padding: 0 10vw;
-`
+`;
 
 const IconTrashWrapper = styled.div`
   position: fixed;
@@ -53,7 +53,7 @@ const IconTrashWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border: #fff solid 2px;
-`
+`;
 
 const IconBackWrapper = styled.div`
   position: fixed;
@@ -67,19 +67,19 @@ const IconBackWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border: #fff solid 2px;
-`
+`;
 
 type Tab = 'color' | 'image';
 
 const canvasHistory: string[] = [];
 
-export const OekakiScene = ({ next }: Props) => { 
+export const OekakiScene = ({ next }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
   const [color, setColor] = useState<string>('#000000');
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [tab, setTab] = useState<Tab>('color')
+  const [tab, setTab] = useState<Tab>('color');
 
   useEffect(() => {
     const html = document.querySelector('html') as HTMLHtmlElement;
@@ -91,9 +91,9 @@ export const OekakiScene = ({ next }: Props) => {
     return () => {
       html.style.overflow = 'auto';
       body.style.overflow = 'auto';
-    }
-  }, [])
-  
+    };
+  }, []);
+
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
@@ -107,47 +107,63 @@ export const OekakiScene = ({ next }: Props) => {
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }, [ctx, canvasRef]);
 
-  const getPosition = useCallback((e: React.Touch) => {
-    if (!canvasRef.current) return;
-    const x = (canvasRef.current.width / canvasRef.current.clientWidth) * (e.clientX - canvasRef.current.getBoundingClientRect().left);
-    const y = (canvasRef.current.height / canvasRef.current.clientHeight) * (e.clientY - canvasRef.current.getBoundingClientRect().top);
-    return {x, y};
-  }, [canvasRef]);
+  const getPosition = useCallback(
+    (e: React.Touch) => {
+      if (!canvasRef.current) return;
+      const x =
+        (canvasRef.current.width / canvasRef.current.clientWidth) *
+        (e.clientX - canvasRef.current.getBoundingClientRect().left);
+      const y =
+        (canvasRef.current.height / canvasRef.current.clientHeight) *
+        (e.clientY - canvasRef.current.getBoundingClientRect().top);
+      return { x, y };
+    },
+    [canvasRef]
+  );
 
-  const drawStart = useCallback((e: TouchEvent<HTMLCanvasElement>) => {
-    if (!ctx) return;
-    ctx.beginPath();
-    const touch = e.targetTouches[0];
+  const drawStart = useCallback(
+    (e: TouchEvent<HTMLCanvasElement>) => {
+      if (!ctx) return;
+      ctx.beginPath();
+      const touch = e.targetTouches[0];
 
-    const {x, y} = getPosition(touch) as {x: number, y: number};
+      const { x, y } = getPosition(touch) as { x: number; y: number };
 
-    ctx.moveTo(x, y);
-  }, [ctx, getPosition]);
+      ctx.moveTo(x, y);
+    },
+    [ctx, getPosition]
+  );
 
-  const drawMove = useCallback((e: TouchEvent<HTMLCanvasElement>) => {
-    if (!ctx) return;
-    const touch = e.targetTouches[0];
+  const drawMove = useCallback(
+    (e: TouchEvent<HTMLCanvasElement>) => {
+      if (!ctx) return;
+      const touch = e.targetTouches[0];
 
-    const {x, y} = getPosition(touch) as {x: number, y: number};
-    
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    
-    ctx.moveTo(x, y);
-  }, [ctx, getPosition]);
+      const { x, y } = getPosition(touch) as { x: number; y: number };
 
-  const drawImage = useCallback((e: TouchEvent<HTMLCanvasElement>) => {
-    if (!ctx || !image) return;
-    const touch = e.targetTouches[0];
+      ctx.lineTo(x, y);
+      ctx.stroke();
 
-    const {x, y} = getPosition(touch) as {x: number, y: number};
+      ctx.moveTo(x, y);
+    },
+    [ctx, getPosition]
+  );
 
-    ctx.drawImage(image, x - image.width / 2, y - image.height / 2);
-  }, [image, ctx, getPosition]);
+  const drawImage = useCallback(
+    (e: TouchEvent<HTMLCanvasElement>) => {
+      if (!ctx || !image) return;
+      const touch = e.targetTouches[0];
+
+      const { x, y } = getPosition(touch) as { x: number; y: number };
+
+      ctx.drawImage(image, x - image.width / 2, y - image.height / 2);
+    },
+    [image, ctx, getPosition]
+  );
 
   const clearCanvas = useCallback(() => {
     if (!ctx || !canvasRef.current) return;
-    const dataUrl = canvasRef.current?.toDataURL("image/jpeg") as string;
+    const dataUrl = canvasRef.current?.toDataURL('image/jpeg') as string;
     canvasHistory.push(dataUrl);
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -156,24 +172,30 @@ export const OekakiScene = ({ next }: Props) => {
   useEffect(() => {
     if (!ctx) return;
     ctx.strokeStyle = color;
-  }, [color, ctx])
+  }, [color, ctx]);
 
-  const touchStart = useCallback((e: TouchEvent<HTMLCanvasElement>) => {
-    const dataUrl = canvasRef.current?.toDataURL("image/jpeg") as string;
-    canvasHistory.push(dataUrl);
-    if (tab === 'color') {
-      drawStart(e);
-    }
-    if (tab === 'image') {
-      drawImage(e);
-    }
-  }, [tab, drawImage, drawStart]);
-  
-  const touchMove = useCallback((e: TouchEvent<HTMLCanvasElement>) => {
-    if (tab === 'color') {
-      drawMove(e);
-    }
-  }, [tab, drawMove]);
+  const touchStart = useCallback(
+    (e: TouchEvent<HTMLCanvasElement>) => {
+      const dataUrl = canvasRef.current?.toDataURL('image/jpeg') as string;
+      canvasHistory.push(dataUrl);
+      if (tab === 'color') {
+        drawStart(e);
+      }
+      if (tab === 'image') {
+        drawImage(e);
+      }
+    },
+    [tab, drawImage, drawStart]
+  );
+
+  const touchMove = useCallback(
+    (e: TouchEvent<HTMLCanvasElement>) => {
+      if (tab === 'color') {
+        drawMove(e);
+      }
+    },
+    [tab, drawMove]
+  );
 
   const back = () => {
     if (!ctx || !canvasRef.current) return;
@@ -184,12 +206,12 @@ export const OekakiScene = ({ next }: Props) => {
     image.onload = () => {
       if (!ctx || !canvasRef.current) return;
       ctx.drawImage(image, 0, 0, canvasRef.current.width, canvasRef.current.height);
-    }
-    image.src = src
+    };
+    image.src = src;
   };
 
   const finishDrawCharacter = useCallback(async () => {
-    const dataUrl = canvasRef.current?.toDataURL("image/jpeg", 0.75) as string;
+    const dataUrl = canvasRef.current?.toDataURL('image/jpeg', 0.75) as string;
     await next(dataUrl);
   }, [next]);
 
@@ -200,9 +222,15 @@ export const OekakiScene = ({ next }: Props) => {
         <BsFillTrashFill size="16px" color="#fff"></BsFillTrashFill>
       </IconTrashWrapper>
       <IconBackWrapper onClick={back}>
-        <IoReturnDownBack size="16px" color="#fff"/>
+        <IoReturnDownBack size="16px" color="#fff" />
       </IconBackWrapper>
-      <CanvasOekaki ref={canvasRef} width="1024" height="1433" onTouchStart={(e) => touchStart(e)} onTouchMove={(e) => touchMove(e)}></CanvasOekaki>
+      <CanvasOekaki
+        ref={canvasRef}
+        width="1024"
+        height="1433"
+        onTouchStart={(e) => touchStart(e)}
+        onTouchMove={(e) => touchMove(e)}
+      ></CanvasOekaki>
 
       <TabWrapper>
         <TabButton onClick={() => setTab('color')}>筆の色</TabButton>
@@ -211,5 +239,5 @@ export const OekakiScene = ({ next }: Props) => {
       {tab === 'color' && <PickColors selectColor={setColor} />}
       {tab === 'image' && <PickImages selectImage={setImage} />}
     </CanvasWrapper>
-  )
-}
+  );
+};

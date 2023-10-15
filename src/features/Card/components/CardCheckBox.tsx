@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
-import { AiOutlineCheckCircle } from "react-icons/ai";
-import { Card } from "../type";
-import { CARD_HEIGHT, CARD_WIDTH } from "../const";
+import styled, { css } from 'styled-components';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { Card } from '../type';
+import { CARD_HEIGHT, CARD_WIDTH } from '../const';
 
 export type CardCheckBoxProps = {
   card: Card;
@@ -9,27 +9,13 @@ export type CardCheckBoxProps = {
   handleChange: () => void;
 };
 
-export const CardCheckBox: React.FC<CardCheckBoxProps> = ({
-  card,
-  checked,
-  handleChange,
-}) => {
+export const CardCheckBox: React.FC<CardCheckBoxProps> = ({ card, checked, handleChange }) => {
   return (
     <StyledCardCheckBox>
       <ImgWrapper>
-        <StyledCheckbox
-          id="cardCheck"
-          type="checkbox"
-          checked={checked}
-          onChange={handleChange}
-        />
+        <StyledCheckbox id="cardCheck" type="checkbox" checked={checked} onChange={handleChange} />
         {checked && <StyledCheckIcon checked={checked} />}
-        <StyledImg
-          src={card.content}
-          width={CARD_WIDTH}
-          height={CARD_HEIGHT}
-          checked={checked}
-        />
+        <StyledImg src={card.content} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
       </ImgWrapper>
       <UserName>{card.user_name}</UserName>
     </StyledCardCheckBox>
@@ -56,7 +42,7 @@ const StyledImg = styled.img<{ checked: boolean }>`
   cursor: pointer;
   border-radius: 20px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-  
+
   ${({ checked }) =>
     checked &&
     css`
@@ -84,4 +70,4 @@ const StyledCheckIcon = styled(AiOutlineCheckCircle)<{ checked: boolean }>`
 const UserName = styled.p`
   font-size: 12px;
   font-weight: 800;
-`
+`;

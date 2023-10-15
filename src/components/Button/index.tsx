@@ -1,18 +1,15 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export type ButtonProps = {
   children: React.ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = "primary",
-  ...props
-}) => {
-  if (variant === "primary") {
+export const Button: React.FC<ButtonProps> = ({ variant = 'primary', ...props }) => {
+  if (variant === 'primary') {
     return <PrimaryButton {...props}>{props.children}</PrimaryButton>;
   }
-  if (variant === "secondary") {
+  if (variant === 'secondary') {
     return <SecondaryButton {...props}>{props.children}</SecondaryButton>;
   }
 };

@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { CardCheckBox } from "../../features/Card/components/CardCheckBox";
+import styled from 'styled-components';
+import { CardCheckBox } from '../../features/Card/components/CardCheckBox';
 
-import { useCards } from "../../features/Card/hooks/useCards";
-import { Card } from "../../features/Card/type";
+import { useCards } from '../../features/Card/hooks/useCards';
+import { Card } from '../../features/Card/type';
 // import { Button } from "../../components/Button";
-import { useNavigate } from "react-router-dom";
-import { useGame } from "../../features/Game/hooks/useGame";
+import { useNavigate } from 'react-router-dom';
+import { useGame } from '../../features/Game/hooks/useGame';
 
 // 選択できるカードの最大の数
 const MAX_SELECTABLE_CARD_COUNT = 4;
@@ -13,23 +13,14 @@ const MAX_SELECTABLE_CARD_COUNT = 4;
 const MIN_SELECTABLE_CARD_COUNT = 3;
 
 export const Lobby = () => {
-  const {
-    cards,
-    selectedCards,
-    appendSelectedCards,
-    removeSelectedCards,
-    selectRandomCards,
-  } = useCards();
+  const { cards, selectedCards, appendSelectedCards, removeSelectedCards, selectRandomCards } = useCards();
 
   const { startGame } = useGame();
 
   const navigate = useNavigate();
 
   const handleChange = (card: Card) => {
-    if (
-      selectedCards.length === MAX_SELECTABLE_CARD_COUNT &&
-      !selectedCards.includes(card)
-    ) {
+    if (selectedCards.length === MAX_SELECTABLE_CARD_COUNT && !selectedCards.includes(card)) {
       return;
     }
     if (selectedCards.includes(card)) {
@@ -50,7 +41,7 @@ export const Lobby = () => {
       return;
     }
     startGame(selectedCards, randomlySelectedCards);
-    navigate("/game/play");
+    navigate('/game/play');
   };
 
   if (!cards) {
@@ -80,22 +71,13 @@ export const Lobby = () => {
         {[...new Array(selectedCards.length)].map((_, index) => (
           <HumanImg key={index} src="/images/participate.png" alt="" />
         ))}
-        {[...new Array(MAX_SELECTABLE_CARD_COUNT - selectedCards.length)].map(
-          (_, index) => (
-            <HumanImg key={index} src="/images/stand.png" alt="" />
-          )
-        )}
+        {[...new Array(MAX_SELECTABLE_CARD_COUNT - selectedCards.length)].map((_, index) => (
+          <HumanImg key={index} src="/images/stand.png" alt="" />
+        ))}
       </ParticipateHumans>
 
-      <button
-        onClick={handleStartButtonClick}
-        style={{ fontSize: "24px", fontWeight: 800, color: "#fff" }}
-      >
-        <GameStart
-          data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}
-        >
-          Start!
-        </GameStart>
+      <button onClick={handleStartButtonClick} style={{ fontSize: '24px', fontWeight: 800, color: '#fff' }}>
+        <GameStart data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}>Start!</GameStart>
       </button>
       <QRCode src="/images/qr.png" alt="" />
     </GameLayout>
@@ -138,7 +120,7 @@ const GameStart = styled.div`
   &:hover {
     transform: scale(1.1);
   }
-  &[data-submittable="false"] {
+  &[data-submittable='false'] {
     background-color: #aaa;
     pointer-events: none;
   }
@@ -169,4 +151,4 @@ const QRCode = styled.img`
   left: 10px;
   bottom: 10px;
   width: 100px;
-`
+`;

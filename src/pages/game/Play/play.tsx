@@ -1,20 +1,19 @@
-import styled, { keyframes } from "styled-components";
-import { CARD_WIDTH, CARD_HEIGHT } from "../../../features/Card/const";
-import { PlayerScore } from "../../../features/Player/components/PlayerScore";
+import styled, { keyframes } from 'styled-components';
+import { CARD_WIDTH, CARD_HEIGHT } from '../../../features/Card/const';
+import { PlayerScore } from '../../../features/Player/components/PlayerScore';
 
-import { useGame } from "../../../features/Game/hooks/useGame";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../../../components/Button";
+import { useGame } from '../../../features/Game/hooks/useGame';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../../components/Button';
 
 const HIDDEN_SCORE_THRESHOLD = 15;
 const ANIMATION_DURATION = 0.3 * 1000;
 
 export const Play = () => {
-  const { deck, playCard, playedCards, players, addPoints, nameCard } =
-    useGame();
-  const [characterName, setCharacterName] = useState<string>("");
-  const [displayingName, setDisplayingName] = useState("");
+  const { deck, playCard, playedCards, players, addPoints, nameCard } = useGame();
+  const [characterName, setCharacterName] = useState<string>('');
+  const [displayingName, setDisplayingName] = useState('');
   const [isNameDisplayed, setIsNameDisplayed] = useState(false);
   const lastPlayedCard = playedCards.at(-1);
   const lastPrevPlayedCard = playedCards.at(-2);
@@ -37,11 +36,11 @@ export const Play = () => {
 
   const handleNameButtonClick = () => {
     nameCard(characterName);
-    setCharacterName("");
+    setCharacterName('');
   };
 
   const handleDisplayNameButtonClick = () => {
-    setDisplayingName(lastPlayedCard?.character_name ?? "名前がまだないよ");
+    setDisplayingName(lastPlayedCard?.character_name ?? '名前がまだないよ');
     setIsNameDisplayed(true);
   };
 
@@ -52,16 +51,12 @@ export const Play = () => {
       <DeckArea>
         <DeckWrapper>
           <DeckButton onClick={handleDeckClick}>
-            <img
-              src="/images/deck.png"
-              width={CARD_WIDTH}
-              height={CARD_HEIGHT}
-            />
+            <img src="/images/deck.png" width={CARD_WIDTH} height={CARD_HEIGHT} />
           </DeckButton>
           <PointBudge data-type="rest">{deck.length}</PointBudge>
           <div
             style={{
-              display: "flex",
+              display: 'flex',
             }}
           >
             <p>カードをめくる</p>
@@ -73,14 +68,12 @@ export const Play = () => {
           {playedCards.length === 0 && deck.length === 0 ? (
             <div
               style={{
-                display: "grid",
-                gap: "16px",
+                display: 'grid',
+                gap: '16px',
               }}
             >
               ゲームが終了しました
-              <Button onClick={() => navigate("/game/ranking")}>
-                ランキングへ
-              </Button>
+              <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
             </div>
           ) : (
             <>
@@ -116,15 +109,11 @@ export const Play = () => {
       <OperationArea>
         <label
           style={{
-            display: "grid",
+            display: 'grid',
           }}
         >
           カードの名前
-          <input
-            placeholder="モジャひめ"
-            value={characterName}
-            onChange={handleNameChange}
-          />
+          <input placeholder="モジャひめ" value={characterName} onChange={handleNameChange} />
         </label>
         <Button onClick={handleNameButtonClick}>カードに名前をつける</Button>
 
@@ -133,7 +122,7 @@ export const Play = () => {
         ) : (
           <span
             style={{
-              borderBottom: "3px dotted #84cc16",
+              borderBottom: '3px dotted #84cc16',
             }}
           ></span>
         )}
@@ -206,7 +195,7 @@ const Card = styled.img`
   border-radius: 20px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   transform-origin: center bottom;
-  &[data-animation="true"] {
+  &[data-animation='true'] {
     animation: ${cardAnimation} ${ANIMATION_DURATION}ms ease-out;
   }
   &[data-prev] {
@@ -231,10 +220,10 @@ const PointBudge = styled.div`
   top: -20px;
   right: -20px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-  &[data-type="point"] {
+  &[data-type='point'] {
     background-color: #1ba951;
   }
-  &[data-type="rest"] {
+  &[data-type='rest'] {
     background-color: #f3330d;
   }
 `;

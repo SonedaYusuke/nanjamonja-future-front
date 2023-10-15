@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useGame } from "../../../features/Game/hooks/useGame";
-import { LiaCrownSolid } from "react-icons/lia";
+import styled from 'styled-components';
+import { useGame } from '../../../features/Game/hooks/useGame';
+import { LiaCrownSolid } from 'react-icons/lia';
 
 export const Ranking = () => {
   const { players } = useGame();
@@ -12,13 +12,7 @@ export const Ranking = () => {
       <StyledArea>
         {players.map((player, index) => (
           <StyledPlayer rank={players.length - index}>
-            <StyledRank>
-              {WinnerScore == player.score ? (
-                <LiaCrownSolid color="#FFD700" />
-              ) : (
-                ""
-              )}
-            </StyledRank>
+            <StyledRank>{WinnerScore == player.score ? <LiaCrownSolid color="#FFD700" /> : ''}</StyledRank>
             <StyledScore>
               {player.name} : {player.score}枚
             </StyledScore>

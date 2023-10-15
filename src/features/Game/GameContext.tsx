@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Card } from "../../features/Card/type";
-import { Player } from "../Player/type";
-import styled from "styled-components";
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Card } from '../../features/Card/type';
+import { Player } from '../Player/type';
+import styled from 'styled-components';
 
 export type GameContext = {
   deck: Card[];
@@ -71,10 +71,7 @@ export const GameLayout = () => {
     }
 
     const namedDeck = deck.map((card) => {
-      if (
-        card.id === lastPlayedCard.id &&
-        (card.character_name === undefined || card.character_name === "")
-      ) {
+      if (card.id === lastPlayedCard.id && (card.character_name === undefined || card.character_name === '')) {
         return {
           ...card,
           character_name,

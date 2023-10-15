@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 export const NextButton = styled.button`
   position: fixed;
@@ -15,4 +15,4 @@ export const NextButton = styled.button`
   &:disabled {
     filter: grayscale(1);
   }
-`
+`;

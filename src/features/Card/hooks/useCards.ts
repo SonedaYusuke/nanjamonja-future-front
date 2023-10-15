@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { Card } from "../type";
+import { useEffect, useState } from 'react';
+import { Card } from '../type';
 
 export type UseCards = {
   cards: Card[] | undefined;
 };
 
-const GET_CARDS_URL = "https://h3nckvn8-8000.asse.devtunnels.ms/api/user/get/";
+const GET_CARDS_URL = 'https://h3nckvn8-8000.asse.devtunnels.ms/api/user/get/';
 
 const MAX_CARD_COUNT = 7;
 
@@ -18,9 +18,7 @@ export const useCards = () => {
   };
 
   const removeSelectedCards = (card: Card) => {
-    const newSelectedCards = selectedCards.filter(
-      (selectedCard) => selectedCard.id !== card.id
-    );
+    const newSelectedCards = selectedCards.filter((selectedCard) => selectedCard.id !== card.id);
     setSelectedCards(newSelectedCards);
   };
 
@@ -33,10 +31,7 @@ export const useCards = () => {
       return;
     }
 
-    const availableCards = cards.filter(
-      (card) =>
-        !selectedCards.some((selectedCard) => selectedCard.id === card.id)
-    );
+    const availableCards = cards.filter((card) => !selectedCards.some((selectedCard) => selectedCard.id === card.id));
 
     const numCardsToSelect = MAX_CARD_COUNT - selectedCards.length;
     const selectedRandomCards = [];

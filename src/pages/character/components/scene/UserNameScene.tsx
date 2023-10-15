@@ -1,20 +1,22 @@
-import styled from "styled-components";
-import { NextButton } from "../element/NextButton";
+import styled from 'styled-components';
+import { NextButton } from '../element/NextButton';
 
 interface Props {
   next: () => void;
   setUserName: (name: string) => void;
-  isSubmittable: boolean
+  isSubmittable: boolean;
 }
 
-export const UserNameScene = ({next, setUserName, isSubmittable}: Props) => {
+export const UserNameScene = ({ next, setUserName, isSubmittable }: Props) => {
   return (
     <Layout>
-      <NextButton onClick={next} disabled={!isSubmittable}>次へ</NextButton>
+      <NextButton onClick={next} disabled={!isSubmittable}>
+        次へ
+      </NextButton>
       <p>あなたの名前を入力してね！</p>
-      <input onChange={e => setUserName(e.target.value)} type="text" />
+      <input onChange={(e) => setUserName(e.target.value)} type="text" />
     </Layout>
-  )
+  );
 };
 
 const Layout = styled.div`

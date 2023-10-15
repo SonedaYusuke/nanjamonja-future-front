@@ -1,17 +1,13 @@
-import styled from "styled-components";
-import { Player } from "../type";
-import { Button } from "../../../components/Button";
+import styled from 'styled-components';
+import { Player } from '../type';
+import { Button } from '../../../components/Button';
 
 export type PlayerScoreProps = {
   player: Player;
   hiddenScore: boolean;
   handleAddScoreButton: (id: string) => void;
 };
-export const PlayerScore: React.FC<PlayerScoreProps> = ({
-  player,
-  hiddenScore,
-  handleAddScoreButton,
-}) => {
+export const PlayerScore: React.FC<PlayerScoreProps> = ({ player, hiddenScore, handleAddScoreButton }) => {
   return (
     <StyledPlayerScore>
       <PlayerInfo>{player.name}</PlayerInfo>
@@ -19,7 +15,7 @@ export const PlayerScore: React.FC<PlayerScoreProps> = ({
         <ButtonWrapper>
           <Button onClick={() => handleAddScoreButton(player.id)}>GET!</Button>
         </ButtonWrapper>
-        <PlayerInfoScore>{hiddenScore ? "?" : player.score}</PlayerInfoScore>
+        <PlayerInfoScore>{hiddenScore ? '?' : player.score}</PlayerInfoScore>
       </Score>
     </StyledPlayerScore>
   );
