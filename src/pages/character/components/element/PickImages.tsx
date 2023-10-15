@@ -1,59 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const IMAGES_PATHS = [
-  '00.png',
-  '01.png',
-  '02.png',
-  '03.png',
-  '04.png',
-  '05.png',
-  '06.png',
-  '07.png',
-  '08.png',
-  '09.png',
-  '10.png',
-  '11.png',
-  '12.png',
-  '13.png',
-  '14.png',
-  '15.png',
-  '16.png',
-  '17.png',
-  '18.png',
-  '19.png',
-  '20.png',
-  '21.png',
-  '22.png',
-  '23.png',
-  '24.png',
-  '25.png',
-  '26.png',
-  '27.png',
-  '28.png',
-  '29.png',
-  '30.png',
-  '31.png',
-  '32.png',
-  '33.png',
-  '34.png',
-  '35.png',
-  '36.png',
-  '37.png',
-  '38.png',
-  '39.png',
-  '40.png',
-  '41.png',
-  '42.png',
-  '43.png',
-  '44.png',
-  '45.png',
-  '46.png',
-  '47.png',
-];
+import imagePathFile from '../../../../character-parts.json';
+
+export type PartsKind = keyof typeof imagePathFile;
 
 interface Props {
   selectImage: (image: HTMLImageElement) => void;
+  kind: PartsKind;
 }
 
 const loadImage = async (src: string): Promise<HTMLImageElement> => {
@@ -89,22 +43,28 @@ const ImageWrapper = styled.div`
   background-color: #eee;
 `;
 
-export const PickImages = ({ selectImage }: Props) => {
-  const [src, setSrc] = useState<string>()
+export const PickImages = ({ selectImage, kind }: Props) => {
+  const [src, setSrc] = useState<string>();
 
-  useEffect(() => {
-    (async () => {
-      if (!src) return;
-      const image = await loadImage(`/assets/parts/${src}`);
+  const select = useCallback(
+    async (src: string) => {
+      setSrc(src);
+      const image = await loadImage(`/assets/parts/${kind}/${src}`);
       selectImage(image);
-    })()
-  }, [src, selectImage])
+    },
+    [kind, selectImage]
+  );
+
+  // 種類を切り替えた時に、その種類の一つ目の画像を選択する
+  useEffect(() => {
+    select(imagePathFile[kind][0]);
+  }, [kind, select]);
 
   return (
     <ImageWrapper>
-      {IMAGES_PATHS.map((path) => (
-        <button key={path} onClick={() => setSrc(path)}>
-          <PartsImage src={`/assets/parts/${path}`} alt="" data-selected={src === path} />
+      {imagePathFile[kind].map((path) => (
+        <button key={`${kind}/${path}`} onClick={() => select(path)}>
+          <PartsImage src={`/assets/parts/${kind}/${path}`} alt="" data-selected={src === path} />
         </button>
       ))}
     </ImageWrapper>

@@ -11,76 +11,76 @@ const MAX_CARD_COUNT = 7;
 
 const DUMMY_CARDS: Card[] = [
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "34",
+    id: '34',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "30",
+    id: '30',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "100",
+    id: '100',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "10",
+    id: '10',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "9",
+    id: '9',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "6",
+    id: '6',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "3",
+    id: '3',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
   {
-    content: "",
+    content: '',
     default_flg: 0,
     highest_score: 0,
-    id: "0",
+    id: '0',
     participant_count: 0,
-    user_name: "ジョグ",
-    character_name: ''
+    user_name: 'ジョグ',
+    character_name: '',
   },
 ];
 

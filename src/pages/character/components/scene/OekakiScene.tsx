@@ -1,7 +1,7 @@
 import { TouchEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { PickColors } from '../element/PickColors';
-import { PickImages } from '../element/PickImages';
+import { PartsKind, PickImages } from '../element/PickImages';
 import { NextButton } from '../element/NextButton';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { IoReturnDownBack } from 'react-icons/io5';
@@ -69,7 +69,7 @@ const IconBackWrapper = styled.div`
   border: #fff solid 2px;
 `;
 
-type Tab = 'color' | 'image';
+type Tab = 'color' | PartsKind;
 
 const canvasHistory: string[] = [];
 
@@ -181,7 +181,7 @@ export const OekakiScene = ({ next }: Props) => {
       if (tab === 'color') {
         drawStart(e);
       }
-      if (tab === 'image') {
+      if (tab !== 'color') {
         drawImage(e);
       }
     },
@@ -234,10 +234,14 @@ export const OekakiScene = ({ next }: Props) => {
 
       <TabWrapper>
         <TabButton onClick={() => setTab('color')}>筆の色</TabButton>
-        <TabButton onClick={() => setTab('image')}>パーツ</TabButton>
+        <TabButton onClick={() => setTab('eye')}>目</TabButton>
+        <TabButton onClick={() => setTab('mouse')}>口</TabButton>
+        <TabButton onClick={() => setTab('hat')}>帽子</TabButton>
+        <TabButton onClick={() => setTab('other')}>その他</TabButton>
       </TabWrapper>
+
       {tab === 'color' && <PickColors selectedColor={color} selectColor={setColor} />}
-      {tab === 'image' && <PickImages selectImage={setImage} />}
+      {tab !== 'color' && <PickImages selectImage={setImage} kind={tab} />}
     </CanvasWrapper>
   );
 };

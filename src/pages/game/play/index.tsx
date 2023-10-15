@@ -64,14 +64,13 @@ export const Play = () => {
                   <Card src={lastPrevPlayedCard?.content} data-prev />
                   <Card src={lastPlayedCard?.content} data-animation={animation} />
                   <PointBudge data-type="point">{playedCards.length}</PointBudge>
-                  {isNameDisplayed ? 
+                  {isNameDisplayed ? (
                     <span>{displayingName}</span>
-                  :
-                  <button onClick={handleDisplayNameButtonClick}>
-                    <span>名前を確認する</span>
-                  </button>
-                  }
-                  
+                  ) : (
+                    <button onClick={handleDisplayNameButtonClick}>
+                      <span>名前を確認する</span>
+                    </button>
+                  )}
                 </>
               )}
             </div>
@@ -88,12 +87,12 @@ export const Play = () => {
           />
         ))}
       </PlayersArea>
-      {playedCards.length > 0 &&
+      {playedCards.length > 0 && (
         <OperationArea>
           <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
           <Button onClick={handleNameButtonClick}>名前をつける</Button>
         </OperationArea>
-      }
+      )}
     </PlayLayout>
   );
 };
@@ -150,7 +149,7 @@ const cardAnimation = keyframes`
 
 const DeckCards = styled.img`
   width: 100%;
-`
+`;
 
 const Card = styled.img`
   width: 240px;
@@ -200,7 +199,7 @@ const InputName = styled.input`
   font-weight: 600;
   text-align: center;
   width: 300px;
-`
+`;
 
 const DeckWrapper = styled.div`
   display: flex;

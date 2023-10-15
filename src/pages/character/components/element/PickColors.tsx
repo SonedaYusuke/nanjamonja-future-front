@@ -29,7 +29,6 @@ const ColorsWrapper = styled.div`
   left: 0;
   bottom: 0;
   background-color: #eee;
-  
 `;
 
 export const PickColors = ({ selectedColor, selectColor }: Props) => {
