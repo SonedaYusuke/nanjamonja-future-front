@@ -32,7 +32,52 @@ const DUMMY_CARDS: Card[] = [
     content: "",
     default_flg: 0,
     highest_score: 0,
-    id: "31",
+    id: "100",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "10",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "9",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "6",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "3",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "0",
     participant_count: 0,
     user_name: "ジョグ",
     character_name: ''

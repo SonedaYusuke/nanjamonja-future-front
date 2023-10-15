@@ -34,7 +34,6 @@ export const Play = () => {
   };
 
   const handleNameButtonClick = () => {
-    console.log(characterName)
     nameCard(characterName);
     setCharacterName('');
   };

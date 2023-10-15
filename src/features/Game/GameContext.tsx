@@ -64,16 +64,12 @@ export const GameLayout = () => {
 
   const nameCard = (character_name: string) => {
     const lastPlayedCard = playedCards.at(-1);
-    console.log(lastPlayedCard)
 
     if (!lastPlayedCard) {
       return;
     }
 
-    console.log(deck)
-
     const namedDeck = deck.map((card) => {
-      console.log(card)
       if (card.id === lastPlayedCard.id && (card.character_name === undefined || card.character_name === '')) {
         return {
           ...card,

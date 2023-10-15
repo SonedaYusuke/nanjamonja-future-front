@@ -4,7 +4,6 @@ import { LiaCrownSolid } from 'react-icons/lia';
 
 export const Ranking = () => {
   const { players } = useGame();
-  console.log(players);
   players.sort((a, b) => b.score - a.score);
   const WinnerScore = players[0].score;
   return (
