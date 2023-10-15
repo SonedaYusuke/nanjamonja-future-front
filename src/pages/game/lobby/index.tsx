@@ -3,7 +3,6 @@ import { CardCheckBox } from '../../../features/Card/components/CardCheckBox';
 
 import { useCards } from '../../../features/Card/hooks/useCards';
 import { Card } from '../../../features/Card/type';
-// import { Button } from "../../components/Button";
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '../../../features/Game/hooks/useGame';
 
@@ -52,18 +51,16 @@ export const Lobby = () => {
     <GameLayout>
       <Header>
         <h1>カード選択</h1>
-        <p>参加する人が描いたカードを選んでね</p>
+        <p>参加する人が描いたカードを選んでね！！</p>
       </Header>
       <CardList>
         {cards.map((card) => (
-          <CardWrapper>
-            <CardCheckBox
-              key={card.user_name}
-              card={card}
-              checked={selectedCards.includes(card)}
-              handleChange={() => handleChange(card)}
-            />
-          </CardWrapper>
+          <CardCheckBox
+            key={card.id}
+            card={card}
+            checked={selectedCards.includes(card)}
+            handleChange={() => handleChange(card)}
+          />
         ))}
       </CardList>
 
@@ -76,16 +73,15 @@ export const Lobby = () => {
         ))}
       </ParticipateHumans>
 
-      <button onClick={handleStartButtonClick} style={{ fontSize: '24px', fontWeight: 800, color: '#fff' }}>
-        <GameStart data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}>Start!</GameStart>
+      <button onClick={handleStartButtonClick}>
+        <GameStart data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}>Game Start!</GameStart>
       </button>
-      <QRCode src="/images/qr.png" alt="" />
     </GameLayout>
   );
 };
 
 const GameLayout = styled.div`
-  padding: 80px 120px 80px 120px;
+  padding: 30px 60px 80px 60px;
 `;
 
 const CardList = styled.div`
@@ -94,32 +90,26 @@ const CardList = styled.div`
   gap: 20px;
 `;
 
-const CardWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const GameStart = styled.div`
   box-sizing: border-box;
   position: fixed;
-  right: -30px;
-  bottom: -30px;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
   background-color: #ec5f43;
   color: #fff;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
+  width: 50%;
+  max-width: 400px;
+  height: 50px;
+  border-radius: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  font-size: 20px;
+  font-weight: 800; 
+  color: '#fff';
   transition: transform 0.2s ease-out;
-  padding: 0 10px 10px 0;
-  &:hover {
-    transform: scale(1.1);
-  }
   &[data-submittable='false'] {
     background-color: #aaa;
     pointer-events: none;
@@ -129,26 +119,22 @@ const GameStart = styled.div`
 const ParticipateHumans = styled.div`
   position: fixed;
   right: 10px;
-  top: 40px;
+  bottom: 20px;
   display: flex;
   align-items: flex-end;
   height: 85px;
 `;
 
 const HumanImg = styled.img`
-  width: 40px;
+  width: 30px;
 `;
 
 const Header = styled.div`
   margin-bottom: 32px;
-  > p {
-    font-size: 24px;
+  > h1 {
+    font-size: 20px;
   }
-`;
-
-const QRCode = styled.img`
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
-  width: 100px;
+  > p {
+    font-size: 16px;
+  }
 `;

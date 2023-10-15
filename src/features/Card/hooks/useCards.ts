@@ -18,7 +18,25 @@ const DUMMY_CARDS: Card[] = [
     participant_count: 0,
     user_name: "ジョグ",
     character_name: ''
-  }
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "30",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
+  {
+    content: "",
+    default_flg: 0,
+    highest_score: 0,
+    id: "31",
+    participant_count: 0,
+    user_name: "ジョグ",
+    character_name: ''
+  },
 ];
 
 export const useCards = () => {

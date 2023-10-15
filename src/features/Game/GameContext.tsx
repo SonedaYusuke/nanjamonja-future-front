@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Card } from '../../features/Card/type';
 import { Player } from '../Player/type';
-import styled from 'styled-components';
 
 export type GameContext = {
   deck: Card[];
@@ -65,12 +64,16 @@ export const GameLayout = () => {
 
   const nameCard = (character_name: string) => {
     const lastPlayedCard = playedCards.at(-1);
+    console.log(lastPlayedCard)
 
     if (!lastPlayedCard) {
       return;
     }
 
+    console.log(deck)
+
     const namedDeck = deck.map((card) => {
+      console.log(card)
       if (card.id === lastPlayedCard.id && (card.character_name === undefined || card.character_name === '')) {
         return {
           ...card,
@@ -84,28 +87,18 @@ export const GameLayout = () => {
   };
 
   return (
-    <GameWrapper>
-      <Outlet
-        context={
-          {
-            deck,
-            playedCards,
-            playCard,
-            players,
-            addPoints,
-            nameCard,
-            startGame,
-          } satisfies GameContext
-        }
-      />
-    </GameWrapper>
+    <Outlet
+      context={
+        {
+          deck,
+          playedCards,
+          playCard,
+          players,
+          addPoints,
+          nameCard,
+          startGame,
+        } satisfies GameContext
+      }
+    />
   );
 };
-
-const GameWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  margin: 0 auto;
-`;

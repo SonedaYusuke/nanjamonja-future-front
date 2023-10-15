@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { CARD_WIDTH, CARD_HEIGHT } from '../../../features/Card/const';
 import { PlayerScore } from '../../../features/Player/components/PlayerScore';
 
 import { useGame } from '../../../features/Game/hooks/useGame';
@@ -35,64 +34,48 @@ export const Play = () => {
   };
 
   const handleNameButtonClick = () => {
+    console.log(characterName)
     nameCard(characterName);
     setCharacterName('');
   };
 
   const handleDisplayNameButtonClick = () => {
-    setDisplayingName(lastPlayedCard?.character_name ?? '名前がまだないよ');
+    setDisplayingName(lastPlayedCard?.character_name === '' ? '名前がまだないよ' : lastPlayedCard?.character_name);
     setIsNameDisplayed(true);
   };
 
-  console.log(deck);
-
   return (
-    <StyledPlayLayout>
-      <DeckArea>
-        <DeckWrapper>
-          <DeckButton onClick={handleDeckClick}>
-            <img src="/images/deck.png" width={CARD_WIDTH} height={CARD_HEIGHT} />
-          </DeckButton>
+    <PlayLayout>
+      <DeckWrapper>
+        <DeckButton onClick={handleDeckClick}>
+          <DeckCards src="/images/deck.png" />
           <PointBudge data-type="rest">{deck.length}</PointBudge>
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <p>カードをめくる</p>
-          </div>
-        </DeckWrapper>
-      </DeckArea>
+        </DeckButton>
+      </DeckWrapper>
       <DisplayCardArea>
         <CardWrapper>
           {playedCards.length === 0 && deck.length === 0 ? (
-            <div
-              style={{
-                display: 'grid',
-                gap: '16px',
-              }}
-            >
-              ゲームが終了しました
+            <div>
               <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
             </div>
           ) : (
-            <>
-              {playedCards.length > 0 ? (
+            <div>
+              {playedCards.length > 0 && (
                 <>
                   <Card src={lastPrevPlayedCard?.content} data-prev />
                   <Card src={lastPlayedCard?.content} data-animation={animation} />
-                  {/* {lastPlayedCard?.character_name ?? "カードの名前がありません"} */}
+                  <PointBudge data-type="point">{playedCards.length}</PointBudge>
+                  {isNameDisplayed ? 
+                    <span>{displayingName}</span>
+                  :
+                  <button onClick={handleDisplayNameButtonClick}>
+                    <span>名前を確認する</span>
+                  </button>
+                  }
+                  
                 </>
-              ) : (
-                <div
-                  style={{
-                    width: CARD_WIDTH,
-                    height: CARD_HEIGHT,
-                  }}
-                ></div>
               )}
-              <PointBudge data-type="point">{playedCards.length}</PointBudge>
-            </>
+            </div>
           )}
         </CardWrapper>
       </DisplayCardArea>
@@ -106,73 +89,49 @@ export const Play = () => {
           />
         ))}
       </PlayersArea>
-      <OperationArea>
-        <label
-          style={{
-            display: 'grid',
-          }}
-        >
-          カードの名前
-          <input placeholder="モジャひめ" value={characterName} onChange={handleNameChange} />
-        </label>
-        <Button onClick={handleNameButtonClick}>カードに名前をつける</Button>
-
-        {isNameDisplayed ? (
-          <span>{displayingName}</span>
-        ) : (
-          <span
-            style={{
-              borderBottom: '3px dotted #84cc16',
-            }}
-          ></span>
-        )}
-        <Button variant="secondary" onClick={handleDisplayNameButtonClick}>
-          カードの名前を確認する
-        </Button>
-      </OperationArea>
-    </StyledPlayLayout>
+      {playedCards.length > 0 &&
+        <OperationArea>
+          <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
+          <Button onClick={handleNameButtonClick}>名前をつける</Button>
+        </OperationArea>
+      }
+    </PlayLayout>
   );
 };
 
-const StyledPlayLayout = styled.div`
+const PlayLayout = styled.div`
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 80% 20%;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  width: 1200px;
-  height: 100vh;
-`;
-
-const DeckArea = styled.div`
-  grid-area: 1 / 1 / 2 / 2;
-  display: grid;
-  place-content: center;
-  gap: 16px;
+  gap: 20px;
+  height: 100svh;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 80px;
 `;
 
 const DisplayCardArea = styled.div`
-  padding: 16px;
-  grid-area: 1 / 2 / 2 / 3;
-  display: grid;
-  place-content: center;
   position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const PlayersArea = styled.div`
-  grid-area: 1 / 3 / 2 / 4;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 32px;
 `;
 
 const OperationArea = styled.div`
-  grid-area: 2 / 1 / 3 / 4;
-  display: grid;
-  place-content: center;
-  gap: 16px;
-  grid-template-columns: 300px 300px; /* 2カラム */
-  grid-template-rows: 48px 48px;
-  padding-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  gap: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 20px;
+  align-items: center;
 `;
 
 const CardWrapper = styled.div`
@@ -189,6 +148,10 @@ const cardAnimation = keyframes`
     opacity: 1;
   }
 `;
+
+const DeckCards = styled.img`
+  width: 100%;
+`
 
 const Card = styled.img`
   width: 240px;
@@ -228,12 +191,33 @@ const PointBudge = styled.div`
   }
 `;
 
+const InputName = styled.input`
+  font-family: 'Zen Maru Gothic', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #333;
+  border-radius: 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  width: 300px;
+`
+
 const DeckWrapper = styled.div`
+  display: flex;
   position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: fit-content;
+  margin: auto;
 `;
 
 const DeckButton = styled.button`
   cursor: pointer;
+  width: 35%;
+  max-width: 300px;
+  position: relative;
   :hover {
     transform: translateY(-4px);
     transition: all 0.3s;

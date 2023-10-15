@@ -61,5 +61,5 @@ const PlayerInfoScore = styled.span`
 const Score = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 14px;
 `;

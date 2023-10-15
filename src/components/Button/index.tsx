@@ -17,11 +17,12 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', ...props })
 const PrimaryButton = styled.button`
   cursor: pointer;
   background-color: #84cc16;
-  padding: 10px 40px;
+  padding: 12px 40px;
   color: #fff;
   font-size: 18px;
   border-radius: 100vh;
   font-weight: bold;
+  white-space: nowrap;
   &:hover {
     background-color: #65a30d;
     transition: all 0.3s;

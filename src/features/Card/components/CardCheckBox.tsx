@@ -9,14 +9,14 @@ export type CardCheckBoxProps = {
   handleChange: () => void;
 };
 
-export const CardCheckBox: React.FC<CardCheckBoxProps> = ({ card, checked, handleChange }) => {
+export const CardCheckBox = ({ card, checked, handleChange }: CardCheckBoxProps) => {
   return (
     <StyledCardCheckBox>
-      <ImgWrapper>
+      <CardWrapper>
         <StyledCheckbox id="cardCheck" type="checkbox" checked={checked} onChange={handleChange} />
         {checked && <StyledCheckIcon checked={checked} />}
         <StyledImg src={card.content} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
-      </ImgWrapper>
+      </CardWrapper>
       <UserName>{card.user_name}</UserName>
     </StyledCardCheckBox>
   );
@@ -30,7 +30,7 @@ const StyledCardCheckBox = styled.div`
   align-items: center;
 `;
 
-const ImgWrapper = styled.label`
+const CardWrapper = styled.label`
   position: relative;
   transition: transform 0.2s ease-out;
   &:hover {
@@ -57,17 +57,17 @@ const StyledCheckbox = styled.input`
 
 const StyledCheckIcon = styled(AiOutlineCheckCircle)<{ checked: boolean }>`
   z-index: 1;
-  width: 80px;
-  height: 80px;
+  width: 20px;
+  height: 20px;
   color: #22c55e;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  right: 0%;
+  top: 0%;
+  transform: translate(25%, -25%);
   pointer-events: none;
 `;
 
-const UserName = styled.p`
+const UserName = styled.span`
   font-size: 12px;
   font-weight: 800;
 `;

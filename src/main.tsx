@@ -5,10 +5,10 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { Lobby } from './pages/game/lobby';
-import { Play } from './pages/game/Playhoge/index.tsx';
+import { Play } from './pages/game/play';
 import { GameLayout } from './features/Game/GameContext.tsx';
 import { Character } from './pages/character';
-import { Ranking } from './pages/game/Rankinghoge/index.tsx';
+import { Ranking } from './pages/game/ranking';
 
 const router = createBrowserRouter([
   {
