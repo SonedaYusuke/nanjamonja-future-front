@@ -13,13 +13,13 @@ const CharacterLayout = styled.div`
   height: 100svh;
 `;
 
-const POST_CARD_URL = 'https://h3nckvn8-8000.asse.devtunnels.ms/api/user/insert/';
+const POST_CARD_URL = 'http://localhost:5678/api/cards';
 
 export const Character = () => {
   const [scene, setScene] = useState<Scene>(0);
   const [userName, setUserName] = useState<string>('');
 
-  const sendCharacter = async (datauri: string) => {
+  const sendCharacter = async (data_uri: string) => {
     setScene((prev) => prev + 1);
 
     const res = await fetch(POST_CARD_URL, {
@@ -29,7 +29,7 @@ export const Character = () => {
       },
       body: JSON.stringify({
         user_name: userName,
-        content: datauri,
+        data_uri: data_uri,
       }),
     }).then((res) => res.json());
 

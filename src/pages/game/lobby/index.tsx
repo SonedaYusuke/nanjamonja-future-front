@@ -33,8 +33,6 @@ export const Lobby = () => {
     if (selectedCards.length < MIN_SELECTABLE_CARD_COUNT) {
       return;
     }
-    // 8種類になったカード
-    // 名前むずい
     const randomlySelectedCards = selectRandomCards();
     if (!randomlySelectedCards) {
       return;
@@ -56,7 +54,7 @@ export const Lobby = () => {
       <CardList>
         {cards.map((card) => (
           <CardCheckBox
-            key={card.id}
+            key={card.uuid}
             card={card}
             checked={selectedCards.includes(card)}
             handleChange={() => handleChange(card)}
@@ -66,10 +64,10 @@ export const Lobby = () => {
 
       <ParticipateHumans>
         {[...new Array(selectedCards.length)].map((_, index) => (
-          <HumanImg key={index} src="/images/participate.png" alt="" />
+          <Human key={index} src="/images/participate.png" alt="" />
         ))}
         {[...new Array(MAX_SELECTABLE_CARD_COUNT - selectedCards.length)].map((_, index) => (
-          <HumanImg key={index} src="/images/stand.png" alt="" />
+          <Human key={index} src="/images/stand.png" alt="" />
         ))}
       </ParticipateHumans>
 
@@ -125,7 +123,7 @@ const ParticipateHumans = styled.div`
   height: 85px;
 `;
 
-const HumanImg = styled.img`
+const Human = styled.img`
   width: 30px;
 `;
 

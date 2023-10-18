@@ -9,13 +9,15 @@ export type CardCheckBoxProps = {
   handleChange: () => void;
 };
 
+const IMAGE_URL = 'http://localhost:5678/api/cards'
+
 export const CardCheckBox = ({ card, checked, handleChange }: CardCheckBoxProps) => {
   return (
     <StyledCardCheckBox>
       <CardWrapper>
         <StyledCheckbox id="cardCheck" type="checkbox" checked={checked} onChange={handleChange} />
         {checked && <StyledCheckIcon checked={checked} />}
-        <StyledImg src={card.content} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
+        <StyledImg src={`${IMAGE_URL}/${card.uuid}`} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
       </CardWrapper>
       <UserName>{card.user_name}</UserName>
     </StyledCardCheckBox>
@@ -63,7 +65,7 @@ const StyledCheckIcon = styled(AiOutlineCheckCircle)<{ checked: boolean }>`
   position: absolute;
   right: 0%;
   top: 0%;
-  transform: translate(25%, -25%);
+  transform: translate(-25%, 25%);
   pointer-events: none;
 `;
 
