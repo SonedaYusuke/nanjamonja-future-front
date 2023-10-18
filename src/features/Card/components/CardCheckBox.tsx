@@ -9,7 +9,7 @@ export type CardCheckBoxProps = {
   handleChange: () => void;
 };
 
-const IMAGE_URL = 'http://localhost:5678/api/cards'
+const IMAGE_URL = 'http://localhost:5678/api/cards';
 
 export const CardCheckBox = ({ card, checked, handleChange }: CardCheckBoxProps) => {
   return (

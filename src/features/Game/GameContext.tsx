@@ -30,7 +30,7 @@ export const GameLayout = () => {
   const createPlayers = (selectedCard: Card[]) => {
     setPlayers(
       selectedCard.map((card) => ({
-        id: card.id,
+        id: card.uuid,
         name: card.user_name,
         score: 0,
       }))
@@ -70,7 +70,7 @@ export const GameLayout = () => {
     }
 
     const namedDeck = deck.map((card) => {
-      if (card.id === lastPlayedCard.id && (card.character_name === undefined || card.character_name === '')) {
+      if (card.uuid === lastPlayedCard.uuid && (card.character_name === undefined || card.character_name === '')) {
         return {
           ...card,
           character_name,

@@ -7,7 +7,7 @@ export type UseCards = {
 
 type Response = {
   cards: Card[];
-}
+};
 
 const GET_CARDS_URL = 'http://localhost:5678/api/cards';
 
@@ -30,7 +30,9 @@ export const useCards = () => {
     if (selectedCards.length === MAX_CARD_COUNT) return;
     if (!cards) return;
 
-    const availableCards = cards.filter((card) => !selectedCards.some((selectedCard) => selectedCard.uuid === card.uuid));
+    const availableCards = cards.filter(
+      (card) => !selectedCards.some((selectedCard) => selectedCard.uuid === card.uuid)
+    );
 
     const numCardsToSelect = MAX_CARD_COUNT - selectedCards.length;
     const selectedRandomCards = [];
@@ -47,7 +49,7 @@ export const useCards = () => {
   useEffect(() => {
     (async () => {
       if (cards) return;
-      const res = await fetch(GET_CARDS_URL).then((res) => res.json()) as Response;
+      const res = (await fetch(GET_CARDS_URL).then((res) => res.json())) as Response;
       setCards(res.cards);
     })();
   }, [cards]);

@@ -9,6 +9,8 @@ import { Button } from '../../../components/Button';
 const HIDDEN_SCORE_THRESHOLD = 15;
 const ANIMATION_DURATION = 0.3 * 1000;
 
+const IMAGE_URL = 'http://localhost:5678/api/cards';
+
 export const Play = () => {
   const { deck, playCard, playedCards, players, addPoints, nameCard } = useGame();
   const [characterName, setCharacterName] = useState<string>('');
@@ -61,8 +63,8 @@ export const Play = () => {
             <div>
               {playedCards.length > 0 && (
                 <>
-                  <Card src={lastPrevPlayedCard?.content} data-prev />
-                  <Card src={lastPlayedCard?.content} data-animation={animation} />
+                  <Card src={`${IMAGE_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
+                  <Card src={`${IMAGE_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
                   <PointBudge data-type="point">{playedCards.length}</PointBudge>
                   {isNameDisplayed ? (
                     <span>{displayingName}</span>
