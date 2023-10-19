@@ -28,10 +28,12 @@ const shuffle = <T,>(array: T[]) =>{
 }
 
 export const Play = () => {
+  const navigate = useNavigate()
+
   const { cards } = useGetCards();
   const [selectedCards] = useSelectedCardAtom();
   const [stage, setStage] = useState<Card[]>([])
-  const [stock, setStock] = useState<Card[]>([])
+  const [deck, setDeck] = useState<Card[]>([])
 
   // 初回だけ実行
   useEffect(() => {
@@ -47,77 +49,74 @@ export const Play = () => {
 
     const allCards = [...selectedCards, ...randomSelectedCards];
 
-    setStock(shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat()));
+    setDeck(shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat()));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards])
 
   const turnOver = useCallback(() => {
-    if (stock.length === 0) return;
-    const [card] = stock;
-    setStock((prev) => prev.slice(1));
+    if (deck.length === 0) return;
+    const [card] = deck;
+    setDeck((prev) => prev.slice(1));
     setStage((prev) => [...prev, card]);
-  }, [stock, setStage, setStock])
+  }, [deck, setStage, setDeck])
+
+  const additionalPoint = useMemo(() => stage.length, [stage]);
 
   if (!cards) return <></>
 
   return (
-    <div>
-      <button onClick={turnOver}>カードをめくる</button>
-      {stage.map((card, index) => (
-        <Card key={index} src={`${API_URL}/${card.uuid}`} />
-      ))}
-    </div>
-    // <PlayLayout>
-    //   <DeckWrapper>
-    //     <DeckButton onClick={handleDeckClick}>
-    //       <DeckCards src="/images/stage.png" />
-    //       <PointBudge data-type="rest">{stage.length}</PointBudge>
-    //     </DeckButton>
-    //   </DeckWrapper>
-    //   <DisplayCardArea>
-    //     <CardWrapper>
-    //       {playedCards.length === 0 && stage.length === 0 ? (
-    //         <div>
-    //           <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
-    //         </div>
-    //       ) : (
-    //         <div>
-    //           {playedCards.length > 0 && (
-    //             <>
-    //               <Card src={`${API_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
-    //               <Card src={`${API_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
-    //               <PointBudge data-type="point">{playedCards.length}</PointBudge>
-    //               {isNameDisplayed ? (
-    //                 <span>{displayingName}</span>
-    //               ) : (
-    //                 <button onClick={handleDisplayNameButtonClick}>
-    //                   <span>名前を確認する</span>
-    //                 </button>
-    //               )}
-    //             </>
-    //           )}
-    //         </div>
-    //       )}
-    //     </CardWrapper>
-    //   </DisplayCardArea>
-    //   <PlayersArea>
-    //     {players.map((player) => (
-    //       <PlayerScore
-    //         key={player.id}
-    //         player={player}
-    //         hiddenScore={stage.length <= HIDDEN_SCORE_THRESHOLD}
-    //         handleAddScoreButton={addPoints}
-    //       />
-    //     ))}
-    //   </PlayersArea>
-    //   {playedCards.length > 0 && (
-    //     <OperationArea>
-    //       <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
-    //       <Button onClick={handleNameButtonClick}>名前をつける</Button>
-    //     </OperationArea>
-    //   )}
-    // </PlayLayout>
+    <PlayLayout>
+      <DeckWrapper>
+        <DeckButton onClick={turnOver}>
+          <DeckCards src="/images/deck.png" />
+          <PointBudge data-type="rest">{deck.length}</PointBudge>
+        </DeckButton>
+      </DeckWrapper>
+      <DisplayCardArea>
+        <CardWrapper>
+          {deck.length === 0 && stage.length === 0 ? (
+            <div>
+              <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
+            </div>
+          ) : (
+            <div>
+              {additionalPoint > 0 && (
+                <>
+                  {stage.map((card, index) => (
+                    <Card key={index} src={`${API_URL}/${card.uuid}`} />
+                  ))}
+                  <PointBudge data-type="point">{additionalPoint}</PointBudge>
+                  {/* {isNameDisplayed ? (
+                    <span>{displayingName}</span>
+                  ) : (
+                    <button onClick={handleDisplayNameButtonClick}>
+                      <span>名前を確認する</span>
+                    </button>
+                  )} */}
+                </>
+              )}
+            </div>
+          )}
+        </CardWrapper>
+      </DisplayCardArea>
+      {/* <PlayersArea>
+        {players.map((player) => (
+          <PlayerScore
+            key={player.id}
+            player={player}
+            hiddenScore={stage.length <= HIDDEN_SCORE_THRESHOLD}
+            handleAddScoreButton={addPoints}
+          />
+        ))}
+      </PlayersArea>
+      {playedCards.length > 0 && (
+        <OperationArea>
+          <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
+          <Button onClick={handleNameButtonClick}>名前をつける</Button>
+        </OperationArea>
+      )} */}
+    </PlayLayout>
   );
 };
 
@@ -137,6 +136,7 @@ const DisplayCardArea = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 `;
 
 const PlayersArea = styled.div`
@@ -162,11 +162,11 @@ const CardWrapper = styled.div`
 
 const cardAnimation = keyframes`
   0% {
-    transform: translate(0, 80px) rotate(-10deg);
+    transform: translate(-42%, -10%) rotate(-10deg);
     opacity: 0;
   }
   100% {
-    transform: translate(0, 0);
+    transform: translate(-50%, -50%);
     opacity: 1;
   }
 `;
@@ -178,16 +178,18 @@ const DeckCards = styled.img`
 const Card = styled.img`
   width: 240px;
   border-radius: 20px;
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   transform-origin: center bottom;
-  &[data-animation='true'] {
-    animation: ${cardAnimation} ${ANIMATION_DURATION}ms ease-out;
-  }
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  animation: ${cardAnimation} ${ANIMATION_DURATION}ms ease-out forwards;
   &[data-prev] {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+  }
+  &:first-child {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   }
 `;
 
