@@ -1,11 +1,11 @@
-import { Card } from "../features/Card/type";
+import { Card } from '../features/Card/type';
 
 export const API_URL = 'http://localhost:5678/api/cards';
 
 type Character = {
   user_name: string;
   data_uri: string;
-}
+};
 
 type Response = {
   cards: Card[];
@@ -20,10 +20,10 @@ export const postCharacter = async (character: Character) => {
     body: JSON.stringify(character),
   });
   return res.json();
-}
+};
 
 export const getCards = async () => {
   const res = (await fetch(API_URL).then((res) => res.json())) as Response;
 
   return Promise.resolve(res.cards);
-}
+};

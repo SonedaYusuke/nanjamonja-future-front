@@ -9,6 +9,7 @@ import { Play } from './pages/game/play';
 import { GameLayout } from './features/Game/GameContext.tsx';
 import { Character } from './pages/character';
 import { Ranking } from './pages/game/ranking';
+import { SWRConfig } from 'swr';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <SWRConfig
+      value={{
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+      }}
+    >
+      <RouterProvider router={router} />
+    </SWRConfig>
   </React.StrictMode>
 );

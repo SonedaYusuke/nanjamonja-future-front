@@ -24,7 +24,7 @@ export const Character = () => {
     await postCharacter({
       user_name: userName,
       data_uri: data_uri,
-    })
+    });
 
     setScene((prev) => prev + 1);
   };
