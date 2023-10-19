@@ -5,11 +5,10 @@ import { useGame } from '../../../features/Game/hooks/useGame';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/Button';
+import { API_URL } from '../../../api';
 
 const HIDDEN_SCORE_THRESHOLD = 15;
 const ANIMATION_DURATION = 0.3 * 1000;
-
-const IMAGE_URL = 'http://localhost:5678/api/cards';
 
 export const Play = () => {
   const { deck, playCard, playedCards, players, addPoints, nameCard } = useGame();
@@ -63,8 +62,8 @@ export const Play = () => {
             <div>
               {playedCards.length > 0 && (
                 <>
-                  <Card src={`${IMAGE_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
-                  <Card src={`${IMAGE_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
+                  <Card src={`${API_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
+                  <Card src={`${API_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
                   <PointBudge data-type="point">{playedCards.length}</PointBudge>
                   {isNameDisplayed ? (
                     <span>{displayingName}</span>

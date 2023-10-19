@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { Card } from '../type';
 import { CARD_HEIGHT, CARD_WIDTH } from '../const';
+import { API_URL } from '../../../api';
 
 export type CardCheckBoxProps = {
   card: Card;
@@ -9,15 +10,13 @@ export type CardCheckBoxProps = {
   handleChange: () => void;
 };
 
-const IMAGE_URL = 'http://localhost:5678/api/cards';
-
 export const CardCheckBox = ({ card, checked, handleChange }: CardCheckBoxProps) => {
   return (
     <StyledCardCheckBox>
       <CardWrapper>
         <StyledCheckbox id="cardCheck" type="checkbox" checked={checked} onChange={handleChange} />
         {checked && <StyledCheckIcon checked={checked} />}
-        <StyledImg src={`${IMAGE_URL}/${card.uuid}`} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
+        <StyledImg src={`${API_URL}/${card.uuid}`} width={CARD_WIDTH} height={CARD_HEIGHT} checked={checked} />
       </CardWrapper>
       <UserName>{card.user_name}</UserName>
     </StyledCardCheckBox>

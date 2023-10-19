@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card } from '../type';
+import { useGetCards } from '../../../api/useRequest';
 
 export type UseCards = {
   cards: Card[] | undefined;
 };
 
-type Response = {
-  cards: Card[];
-};
-
-const GET_CARDS_URL = 'http://localhost:5678/api/cards';
-
 const MAX_CARD_COUNT = 7;
 
 export const useCards = () => {
-  const [cards, setCards] = useState<Card[]>();
+  const { cards } = useGetCards();
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
 
   const appendSelectedCards = (card: Card) => {
@@ -45,14 +40,6 @@ export const useCards = () => {
 
     return selectedRandomCards;
   };
-
-  useEffect(() => {
-    (async () => {
-      if (cards) return;
-      const res = (await fetch(GET_CARDS_URL).then((res) => res.json())) as Response;
-      setCards(res.cards);
-    })();
-  }, [cards]);
 
   return {
     cards,

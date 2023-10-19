@@ -5,6 +5,7 @@ import { OekakiScene } from './components/scene/OekakiScene';
 import { FinishScene } from './components/scene/FinishScene';
 import { useState } from 'react';
 import { SendingScene } from './components/scene/SendingScene';
+import { postCharacter } from '../../api';
 
 type Scene = number;
 
@@ -13,8 +14,6 @@ const CharacterLayout = styled.div`
   height: 100svh;
 `;
 
-const POST_CARD_URL = 'http://localhost:5678/api/cards';
-
 export const Character = () => {
   const [scene, setScene] = useState<Scene>(0);
   const [userName, setUserName] = useState<string>('');
@@ -22,20 +21,12 @@ export const Character = () => {
   const sendCharacter = async (data_uri: string) => {
     setScene((prev) => prev + 1);
 
-    const res = await fetch(POST_CARD_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_name: userName,
-        data_uri: data_uri,
-      }),
-    }).then((res) => res.json());
+    await postCharacter({
+      user_name: userName,
+      data_uri: data_uri,
+    })
 
     setScene((prev) => prev + 1);
-
-    return res;
   };
 
   return (
