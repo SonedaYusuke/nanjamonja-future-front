@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { CardCheckBox } from '../../../features/Card/components/CardCheckBox';
 
-import { useCards } from '../../../features/Card/hooks/useCards';
 import { Card } from '../../../features/Card/type';
 import { useNavigate } from 'react-router-dom';
-import { useGame } from '../../../features/Game/hooks/useGame';
+import { useGetCards } from '../../../api/useRequest';
+import { useSelectedCardAtom } from '../../../store/card';
 
 // 選択できるカードの最大の数
 const MAX_SELECTABLE_CARD_COUNT = 4;
@@ -12,32 +12,22 @@ const MAX_SELECTABLE_CARD_COUNT = 4;
 const MIN_SELECTABLE_CARD_COUNT = 3;
 
 export const Lobby = () => {
-  const { cards, selectedCards, appendSelectedCards, removeSelectedCards, selectRandomCards } = useCards();
-
-  const { startGame } = useGame();
-
+  const [selectedCards, setSelectedCards] = useSelectedCardAtom();
+  const { cards } = useGetCards();
   const navigate = useNavigate();
 
-  const handleChange = (card: Card) => {
-    if (selectedCards.length === MAX_SELECTABLE_CARD_COUNT && !selectedCards.includes(card)) {
-      return;
-    }
+  const selectCard = (card: Card) => {
     if (selectedCards.includes(card)) {
-      removeSelectedCards(card);
-    } else {
-      appendSelectedCards(card);
+      setSelectedCards((prev) => prev.filter((v) => v !== card));
+      return;
     }
-  };
 
-  const handleStartButtonClick = () => {
-    if (selectedCards.length < MIN_SELECTABLE_CARD_COUNT) {
-      return;
-    }
-    const randomlySelectedCards = selectRandomCards();
-    if (!randomlySelectedCards) {
-      return;
-    }
-    startGame(selectedCards, randomlySelectedCards);
+    if (selectedCards.length >= MAX_SELECTABLE_CARD_COUNT) return;
+
+    setSelectedCards((prev) => [...prev, card]);
+  }
+
+  const start = () => {
     navigate('/game/play');
   };
 
@@ -57,7 +47,7 @@ export const Lobby = () => {
             key={card.uuid}
             card={card}
             checked={selectedCards.includes(card)}
-            handleChange={() => handleChange(card)}
+            handleChange={() => selectCard(card)}
           />
         ))}
       </CardList>
@@ -71,7 +61,7 @@ export const Lobby = () => {
         ))}
       </ParticipateHumans>
 
-      <button onClick={handleStartButtonClick}>
+      <button onClick={start}>
         <GameStart data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}>Game Start!</GameStart>
       </button>
     </GameLayout>
