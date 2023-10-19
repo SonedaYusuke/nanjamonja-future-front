@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { PlayerScore } from '../../../features/Player/components/PlayerScore';
 
 import { useGame } from '../../../features/Game/hooks/useGame';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import { API_URL } from '../../../api';
@@ -30,41 +30,54 @@ const shuffle = <T,>(array: T[]) =>{
 export const Play = () => {
   const { cards } = useGetCards();
   const [selectedCards] = useSelectedCardAtom();
+  const [stage, setStage] = useState<Card[]>([])
+  const [stock, setStock] = useState<Card[]>([])
 
-  const cardDeck = useMemo(() => {
-    if (!cards) return [];
+  // 初回だけ実行
+  useEffect(() => {
+    if (!cards) return;
 
-    const randomCards = shuffle(cards);
+    let randomCards = shuffle(cards);
 
     selectedCards.forEach(({uuid}) => {
-      randomCards.filter((card) => card.uuid !== uuid)
+      randomCards = randomCards.filter((card) => card.uuid !== uuid)
     });
 
     const randomSelectedCards = randomCards.slice(0, TOTAL_CARD_KIND - selectedCards.length);
 
     const allCards = [...selectedCards, ...randomSelectedCards];
 
-    return shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat());
-  }, [cards, selectedCards]);
+    setStock(shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat()));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cards])
+
+  const turnOver = useCallback(() => {
+    if (stock.length === 0) return;
+    const [card] = stock;
+    setStock((prev) => prev.slice(1));
+    setStage((prev) => [...prev, card]);
+  }, [stock, setStage, setStock])
 
   if (!cards) return <></>
 
   return (
     <div>
-      {cardDeck.map((card) => (
-        <Card src={`${API_URL}/${card.uuid}`} />
+      <button onClick={turnOver}>カードをめくる</button>
+      {stage.map((card, index) => (
+        <Card key={index} src={`${API_URL}/${card.uuid}`} />
       ))}
     </div>
     // <PlayLayout>
     //   <DeckWrapper>
     //     <DeckButton onClick={handleDeckClick}>
-    //       <DeckCards src="/images/deck.png" />
-    //       <PointBudge data-type="rest">{deck.length}</PointBudge>
+    //       <DeckCards src="/images/stage.png" />
+    //       <PointBudge data-type="rest">{stage.length}</PointBudge>
     //     </DeckButton>
     //   </DeckWrapper>
     //   <DisplayCardArea>
     //     <CardWrapper>
-    //       {playedCards.length === 0 && deck.length === 0 ? (
+    //       {playedCards.length === 0 && stage.length === 0 ? (
     //         <div>
     //           <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
     //         </div>
@@ -93,7 +106,7 @@ export const Play = () => {
     //       <PlayerScore
     //         key={player.id}
     //         player={player}
-    //         hiddenScore={deck.length <= HIDDEN_SCORE_THRESHOLD}
+    //         hiddenScore={stage.length <= HIDDEN_SCORE_THRESHOLD}
     //         handleAddScoreButton={addPoints}
     //       />
     //     ))}
