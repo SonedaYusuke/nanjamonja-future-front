@@ -2,99 +2,109 @@ import styled, { keyframes } from 'styled-components';
 import { PlayerScore } from '../../../features/Player/components/PlayerScore';
 
 import { useGame } from '../../../features/Game/hooks/useGame';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import { API_URL } from '../../../api';
+import { useSelectedCardAtom } from '../../../store/card';
+import { useGetCards } from '../../../api/useRequest';
+import { Card } from '../../../features/Card/type';
 
 const HIDDEN_SCORE_THRESHOLD = 15;
 const ANIMATION_DURATION = 0.3 * 1000;
 
+/**
+ * ゲームで使用されるカードの種類
+ */
+const TOTAL_CARD_KIND = 7;
+
+/**
+ * 1種類のカードが存在する枚数
+ */
+const SAME_CARD_COUNT = 3;
+
+const shuffle = <T,>(array: T[]) =>{
+  return array.sort(() => Math.random() - 0.5);
+}
+
 export const Play = () => {
-  const { deck, playCard, playedCards, players, addPoints, nameCard } = useGame();
-  const [characterName, setCharacterName] = useState<string>('');
-  const [displayingName, setDisplayingName] = useState('');
-  const [isNameDisplayed, setIsNameDisplayed] = useState(false);
-  const lastPlayedCard = playedCards.at(-1);
-  const lastPrevPlayedCard = playedCards.at(-2);
-  const [animation, setAnimation] = useState<boolean>(false);
+  const { cards } = useGetCards();
+  const [selectedCards] = useSelectedCardAtom();
 
-  const navigate = useNavigate();
+  const cardDeck = useMemo(() => {
+    if (!cards) return [];
 
-  const handleDeckClick = () => {
-    setIsNameDisplayed(false);
-    setAnimation(true);
-    setTimeout(() => {
-      setAnimation(false);
-    }, ANIMATION_DURATION);
-    playCard();
-  };
+    const randomCards = shuffle(cards);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCharacterName(e.target.value);
-  };
+    selectedCards.forEach(({uuid}) => {
+      randomCards.filter((card) => card.uuid !== uuid)
+    });
 
-  const handleNameButtonClick = () => {
-    nameCard(characterName);
-    setCharacterName('');
-  };
+    const randomSelectedCards = randomCards.slice(0, TOTAL_CARD_KIND - selectedCards.length);
 
-  const handleDisplayNameButtonClick = () => {
-    setDisplayingName(lastPlayedCard?.character_name === '' ? '名前がまだないよ' : lastPlayedCard?.character_name);
-    setIsNameDisplayed(true);
-  };
+    const allCards = [...selectedCards, ...randomSelectedCards];
+
+    return shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat());
+  }, [cards, selectedCards]);
+
+  if (!cards) return <></>
 
   return (
-    <PlayLayout>
-      <DeckWrapper>
-        <DeckButton onClick={handleDeckClick}>
-          <DeckCards src="/images/deck.png" />
-          <PointBudge data-type="rest">{deck.length}</PointBudge>
-        </DeckButton>
-      </DeckWrapper>
-      <DisplayCardArea>
-        <CardWrapper>
-          {playedCards.length === 0 && deck.length === 0 ? (
-            <div>
-              <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
-            </div>
-          ) : (
-            <div>
-              {playedCards.length > 0 && (
-                <>
-                  <Card src={`${API_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
-                  <Card src={`${API_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
-                  <PointBudge data-type="point">{playedCards.length}</PointBudge>
-                  {isNameDisplayed ? (
-                    <span>{displayingName}</span>
-                  ) : (
-                    <button onClick={handleDisplayNameButtonClick}>
-                      <span>名前を確認する</span>
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-        </CardWrapper>
-      </DisplayCardArea>
-      <PlayersArea>
-        {players.map((player) => (
-          <PlayerScore
-            key={player.id}
-            player={player}
-            hiddenScore={deck.length <= HIDDEN_SCORE_THRESHOLD}
-            handleAddScoreButton={addPoints}
-          />
-        ))}
-      </PlayersArea>
-      {playedCards.length > 0 && (
-        <OperationArea>
-          <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
-          <Button onClick={handleNameButtonClick}>名前をつける</Button>
-        </OperationArea>
-      )}
-    </PlayLayout>
+    <div>
+      {cardDeck.map((card) => (
+        <Card src={`${API_URL}/${card.uuid}`} />
+      ))}
+    </div>
+    // <PlayLayout>
+    //   <DeckWrapper>
+    //     <DeckButton onClick={handleDeckClick}>
+    //       <DeckCards src="/images/deck.png" />
+    //       <PointBudge data-type="rest">{deck.length}</PointBudge>
+    //     </DeckButton>
+    //   </DeckWrapper>
+    //   <DisplayCardArea>
+    //     <CardWrapper>
+    //       {playedCards.length === 0 && deck.length === 0 ? (
+    //         <div>
+    //           <Button onClick={() => navigate('/game/ranking')}>ランキングへ</Button>
+    //         </div>
+    //       ) : (
+    //         <div>
+    //           {playedCards.length > 0 && (
+    //             <>
+    //               <Card src={`${API_URL}/${lastPrevPlayedCard.uuid}`} data-prev />
+    //               <Card src={`${API_URL}/${lastPlayedCard.uuid}`} data-animation={animation} />
+    //               <PointBudge data-type="point">{playedCards.length}</PointBudge>
+    //               {isNameDisplayed ? (
+    //                 <span>{displayingName}</span>
+    //               ) : (
+    //                 <button onClick={handleDisplayNameButtonClick}>
+    //                   <span>名前を確認する</span>
+    //                 </button>
+    //               )}
+    //             </>
+    //           )}
+    //         </div>
+    //       )}
+    //     </CardWrapper>
+    //   </DisplayCardArea>
+    //   <PlayersArea>
+    //     {players.map((player) => (
+    //       <PlayerScore
+    //         key={player.id}
+    //         player={player}
+    //         hiddenScore={deck.length <= HIDDEN_SCORE_THRESHOLD}
+    //         handleAddScoreButton={addPoints}
+    //       />
+    //     ))}
+    //   </PlayersArea>
+    //   {playedCards.length > 0 && (
+    //     <OperationArea>
+    //       <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
+    //       <Button onClick={handleNameButtonClick}>名前をつける</Button>
+    //     </OperationArea>
+    //   )}
+    // </PlayLayout>
   );
 };
 
