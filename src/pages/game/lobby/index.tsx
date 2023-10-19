@@ -4,7 +4,7 @@ import { CardCheckBox } from '../../../features/Card/components/CardCheckBox';
 import { Card } from '../../../features/Card/type';
 import { useNavigate } from 'react-router-dom';
 import { useGetCards } from '../../../api/useRequest';
-import { useSelectedCardAtom } from '../../../store/card';
+import { usePlayerCardAtom } from '../../../store/card';
 
 // 選択できるカードの最大の数
 const MAX_SELECTABLE_CARD_COUNT = 4;
@@ -12,19 +12,19 @@ const MAX_SELECTABLE_CARD_COUNT = 4;
 const MIN_SELECTABLE_CARD_COUNT = 3;
 
 export const Lobby = () => {
-  const [selectedCards, setSelectedCards] = useSelectedCardAtom();
+  const [playerCards, setPlayerCards] = usePlayerCardAtom();
   const { cards } = useGetCards();
   const navigate = useNavigate();
 
   const selectCard = (card: Card) => {
-    if (selectedCards.includes(card)) {
-      setSelectedCards((prev) => prev.filter((v) => v !== card));
+    if (playerCards.includes(card)) {
+      setPlayerCards((prev) => prev.filter((v) => v !== card));
       return;
     }
 
-    if (selectedCards.length >= MAX_SELECTABLE_CARD_COUNT) return;
+    if (playerCards.length >= MAX_SELECTABLE_CARD_COUNT) return;
 
-    setSelectedCards((prev) => [...prev, card]);
+    setPlayerCards((prev) => [...prev, card]);
   }
 
   const start = () => {
@@ -46,23 +46,23 @@ export const Lobby = () => {
           <CardCheckBox
             key={card.uuid}
             card={card}
-            checked={selectedCards.includes(card)}
+            checked={playerCards.includes(card)}
             handleChange={() => selectCard(card)}
           />
         ))}
       </CardList>
 
       <ParticipateHumans>
-        {[...new Array(selectedCards.length)].map((_, index) => (
+        {[...new Array(playerCards.length)].map((_, index) => (
           <Human key={index} src="/images/participate.png" alt="" />
         ))}
-        {[...new Array(MAX_SELECTABLE_CARD_COUNT - selectedCards.length)].map((_, index) => (
+        {[...new Array(MAX_SELECTABLE_CARD_COUNT - playerCards.length)].map((_, index) => (
           <Human key={index} src="/images/stand.png" alt="" />
         ))}
       </ParticipateHumans>
 
       <button onClick={start}>
-        <GameStart data-submittable={selectedCards.length >= MIN_SELECTABLE_CARD_COUNT}>Game Start!</GameStart>
+        <GameStart data-submittable={playerCards.length >= MIN_SELECTABLE_CARD_COUNT}>Game Start!</GameStart>
       </button>
     </GameLayout>
   );

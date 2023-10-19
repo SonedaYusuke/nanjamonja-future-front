@@ -1,16 +1,15 @@
 import styled, { keyframes } from 'styled-components';
 import { PlayerScore } from '../../../features/Player/components/PlayerScore';
 
-import { useGame } from '../../../features/Game/hooks/useGame';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import { API_URL } from '../../../api';
-import { useSelectedCardAtom } from '../../../store/card';
+import { usePlayerCardAtom } from '../../../store/card';
 import { useGetCards } from '../../../api/useRequest';
 import { Card } from '../../../features/Card/type';
 
-const HIDDEN_SCORE_THRESHOLD = 15;
+const HIDDEN_SCORE_THRESHOLD = 10;
 const ANIMATION_DURATION = 0.3 * 1000;
 
 /**
@@ -31,23 +30,23 @@ export const Play = () => {
   const navigate = useNavigate()
 
   const { cards } = useGetCards();
-  const [selectedCards] = useSelectedCardAtom();
+  const [playerCards, setPlayerCards] = usePlayerCardAtom();
   const [stage, setStage] = useState<Card[]>([])
   const [deck, setDeck] = useState<Card[]>([])
 
-  // 初回だけ実行
+  // 初回だけ実行、デッキを用意
   useEffect(() => {
     if (!cards) return;
 
     let randomCards = shuffle(cards);
 
-    selectedCards.forEach(({uuid}) => {
+    playerCards.forEach(({uuid}) => {
       randomCards = randomCards.filter((card) => card.uuid !== uuid)
     });
 
-    const randomSelectedCards = randomCards.slice(0, TOTAL_CARD_KIND - selectedCards.length);
+    randomCards = randomCards.slice(0, TOTAL_CARD_KIND - playerCards.length);
 
-    const allCards = [...selectedCards, ...randomSelectedCards];
+    const allCards = [...playerCards, ...randomCards];
 
     setDeck(shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat()));
 
@@ -62,6 +61,15 @@ export const Play = () => {
   }, [deck, setStage, setDeck])
 
   const additionalPoint = useMemo(() => stage.length, [stage]);
+
+  const addPoint = (uuid: string) => {
+    setPlayerCards((prev) => {
+      const index = prev.findIndex((card) => card.uuid === uuid);
+      prev[index].score = (prev[index].score || 0) + additionalPoint;
+      return prev;
+    })
+    setStage([]);
+  }
 
   if (!cards) return <></>
 
@@ -100,17 +108,17 @@ export const Play = () => {
           )}
         </CardWrapper>
       </DisplayCardArea>
-      {/* <PlayersArea>
-        {players.map((player) => (
+      <PlayersArea>
+        {playerCards.map((card) => (
           <PlayerScore
-            key={player.id}
-            player={player}
-            hiddenScore={stage.length <= HIDDEN_SCORE_THRESHOLD}
-            handleAddScoreButton={addPoints}
+            key={card.uuid}
+            card={card}
+            hiddenScore={deck.length <= HIDDEN_SCORE_THRESHOLD}
+            addPoint={() => addPoint(card.uuid)}
           />
         ))}
       </PlayersArea>
-      {playedCards.length > 0 && (
+      {/* {playedCards.length > 0 && (
         <OperationArea>
           <InputName placeholder="名前を入力" value={characterName} onChange={handleNameChange} />
           <Button onClick={handleNameButtonClick}>名前をつける</Button>
@@ -173,6 +181,10 @@ const cardAnimation = keyframes`
 
 const DeckCards = styled.img`
   width: 100%;
+  transition: transform 0.3s;
+  &:hover {
+    transform: translateY(-4px);
+  }
 `;
 
 const Card = styled.img`
@@ -242,8 +254,4 @@ const DeckButton = styled.button`
   width: 35%;
   max-width: 300px;
   position: relative;
-  :hover {
-    transform: translateY(-4px);
-    transition: all 0.3s;
-  }
 `;

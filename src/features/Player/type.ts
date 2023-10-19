@@ -1,5 +1,5 @@
 export type Player = {
-  id: string;
-  name: string;
+  uuid: string;
+  user_name: string;
   score: number;
 };
