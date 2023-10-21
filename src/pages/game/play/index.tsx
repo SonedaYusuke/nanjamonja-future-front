@@ -38,7 +38,7 @@ export const Play = () => {
   useEffect(() => {
     if (!cards) return;
 
-    let randomCards = shuffle(cards);
+    let randomCards = shuffle([...cards]);
 
     playerCards.forEach(({uuid}) => {
       randomCards = randomCards.filter((card) => card.uuid !== uuid)

@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { Lobby } from './pages/game/lobby';
 import { Play } from './pages/game/play';
-import { GameLayout } from './features/Game/GameContext.tsx';
 import { Character } from './pages/character';
 import { Ranking } from './pages/game/ranking';
 import { SWRConfig } from 'swr';
@@ -14,7 +13,6 @@ import { SWRConfig } from 'swr';
 const router = createBrowserRouter([
   {
     path: 'game',
-    element: <GameLayout />,
     children: [
       {
         path: 'lobby',

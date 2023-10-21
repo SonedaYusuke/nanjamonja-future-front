@@ -16,7 +16,7 @@ export const PlayerScore = ({ card, hiddenScore, addPoint }: PlayerScoreProps) =
         <ButtonWrapper>
           <Button onClick={addPoint}>GET!</Button>
         </ButtonWrapper>
-        <PlayerInfoScore>{hiddenScore ? '?' : card.score || 0}</PlayerInfoScore>
+        <PlayerInfoScore>{hiddenScore ? '???' : card.score}</PlayerInfoScore>
       </Score>
     </StyledPlayerScore>
   );
