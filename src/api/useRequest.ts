@@ -9,8 +9,8 @@ export const useGetCards = () => {
   useEffect(() => {
     if (!data) return;
     data.forEach((card) => {
-      card.score = 0
-    })
+      card.score = 0;
+    });
   }, [data]);
 
   return {

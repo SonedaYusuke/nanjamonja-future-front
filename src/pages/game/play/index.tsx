@@ -22,17 +22,17 @@ const TOTAL_CARD_KIND = 7;
  */
 const SAME_CARD_COUNT = 3;
 
-const shuffle = <T,>(array: T[]) =>{
+const shuffle = <T,>(array: T[]) => {
   return array.sort(() => Math.random() - 0.5);
-}
+};
 
 export const Play = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { cards } = useGetCards();
   const [playerCards, setPlayerCards] = usePlayerCardAtom();
-  const [stage, setStage] = useState<Card[]>([])
-  const [deck, setDeck] = useState<Card[]>([])
+  const [stage, setStage] = useState<Card[]>([]);
+  const [deck, setDeck] = useState<Card[]>([]);
 
   // 初回だけ実行、デッキを用意
   useEffect(() => {
@@ -40,8 +40,8 @@ export const Play = () => {
 
     let randomCards = shuffle([...cards]);
 
-    playerCards.forEach(({uuid}) => {
-      randomCards = randomCards.filter((card) => card.uuid !== uuid)
+    playerCards.forEach(({ uuid }) => {
+      randomCards = randomCards.filter((card) => card.uuid !== uuid);
     });
 
     randomCards = randomCards.slice(0, TOTAL_CARD_KIND - playerCards.length);
@@ -51,14 +51,14 @@ export const Play = () => {
     setDeck(shuffle<Card>(new Array(SAME_CARD_COUNT).fill(allCards).flat()));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards])
+  }, [cards]);
 
   const turnOver = useCallback(() => {
     if (deck.length === 0) return;
     const [card] = deck;
     setDeck((prev) => prev.slice(1));
     setStage((prev) => [...prev, card]);
-  }, [deck, setStage, setDeck])
+  }, [deck, setStage, setDeck]);
 
   const additionalPoint = useMemo(() => stage.length, [stage]);
 
@@ -67,11 +67,11 @@ export const Play = () => {
       const index = prev.findIndex((card) => card.uuid === uuid);
       prev[index].score = prev[index].score + additionalPoint;
       return prev;
-    })
+    });
     setStage([]);
-  }
+  };
 
-  if (!cards) return <></>
+  if (!cards) return <></>;
 
   return (
     <PlayLayout>

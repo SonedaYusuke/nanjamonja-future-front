@@ -1,5 +1,5 @@
-import { atom, useAtom } from "jotai";
-import { Card } from "../features/Card/type";
+import { atom, useAtom } from 'jotai';
+import { Card } from '../features/Card/type';
 
 const playerCardsAtom = atom<Card[]>([]);
 

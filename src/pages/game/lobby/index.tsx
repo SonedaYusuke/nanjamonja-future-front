@@ -25,7 +25,7 @@ export const Lobby = () => {
     if (playerCards.length >= MAX_SELECTABLE_CARD_COUNT) return;
 
     setPlayerCards((prev) => [...prev, card]);
-  }
+  };
 
   const start = () => {
     navigate('/game/play');

@@ -8,7 +8,7 @@ export const Ranking = () => {
 
   const rankedPlayers = useMemo(() => {
     return players.sort((a, b) => b.score - a.score);
-  }, [players])
+  }, [players]);
 
   return (
     <Layout>
@@ -38,7 +38,7 @@ const Card = styled.img`
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   [data-champion='true'] & {
     width: 160px;
-  } 
+  }
 `;
 
 const Area = styled.div`
