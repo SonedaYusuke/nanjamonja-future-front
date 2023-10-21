@@ -65,7 +65,7 @@ export const Play = () => {
   const addPoint = (uuid: string) => {
     setPlayerCards((prev) => {
       const index = prev.findIndex((card) => card.uuid === uuid);
-      prev[index].score = (prev[index].score || 0) + additionalPoint;
+      prev[index].score = prev[index].score + additionalPoint;
       return prev;
     })
     setStage([]);
