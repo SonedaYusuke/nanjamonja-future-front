@@ -153,16 +153,16 @@ const PlayersArea = styled.div`
   gap: 32px;
 `;
 
-const OperationArea = styled.div`
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  gap: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  bottom: 20px;
-  align-items: center;
-`;
+// const OperationArea = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   position: absolute;
+//   gap: 20px;
+//   left: 50%;
+//   transform: translate(-50%, 0);
+//   bottom: 20px;
+//   align-items: center;
+// `;
 
 const CardWrapper = styled.div`
   position: relative;
@@ -227,17 +227,17 @@ const PointBudge = styled.div`
   }
 `;
 
-const InputName = styled.input`
-  font-family: 'Zen Maru Gothic', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: transparent;
-  border: none;
-  border-bottom: 2px solid #333;
-  border-radius: 0;
-  font-size: 20px;
-  font-weight: 600;
-  text-align: center;
-  width: 300px;
-`;
+// const InputName = styled.input`
+//   font-family: 'Zen Maru Gothic', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+//   background-color: transparent;
+//   border: none;
+//   border-bottom: 2px solid #333;
+//   border-radius: 0;
+//   font-size: 20px;
+//   font-weight: 600;
+//   text-align: center;
+//   width: 300px;
+// `;
 
 const DeckWrapper = styled.div`
   display: flex;
