@@ -1,6 +1,6 @@
 import { Card } from '../features/Card/type';
 
-export const API_URL = 'http://localhost:5678/api/cards';
+export const API_URL = import.meta.env.VITE_API_URL as string;
 
 type Character = {
   user_name: string;

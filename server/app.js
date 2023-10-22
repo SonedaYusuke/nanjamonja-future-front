@@ -5,6 +5,8 @@ import fs      from "fs";
 import db      from "./database/init.js";
 import crypto  from "crypto";
 
+const __dirname = new URL('.', import.meta.url).pathname;
+
 const app = express();
 
 app.use(express.json());
@@ -18,6 +20,8 @@ app.use(
   })
 );
 
+
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT;
 
 app.get("/api/cards", (req, res) => {
@@ -37,16 +41,16 @@ app.get("/api/cards", (req, res) => {
 
 app.get("/api/cards/:id", (req, res) => {
   res.setHeader("Content-Type", "image/jpeg");
-  res.sendFile("./assets/cards/" + req.params.id + ".jpg");
+  res.sendFile(__dirname + "/assets/cards/" + req.params.id + ".jpg");
 });
 
 app.post("/api/cards", (req, res) => {
   db.serialize(() => {
-    const uuid = crypto.randomUUID()
+    const uuid = crypto.randomUUID();
     db.run(`INSERT INTO cards(uuid, user_name) values("${uuid}", "${req.body.user_name}")`);
     try {
       fs.writeFileSync(
-        `./assets/cards/${uuid}.jpg`,
+        __dirname + `/assets/cards/${uuid}.jpg`,
         req.body.data_uri.replace(/^data:image\/\w+;base64,/, ""),
         { encoding: "base64" }
         );

@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite & yarn serve:dev",
     "build": "tsc && vite build",
     "lint": "prettier --fix --write \"src/**/*.{ts,tsx,js,jsx,css}\" && eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "preview": "vite preview",
+    "deploy": "yarn build && gcloud app deploy",
     "start:server": "PORT=8080 node ./server/app.js",
     "serve:dev": "PORT=5678 nodemon ./server/app.js"
   },
