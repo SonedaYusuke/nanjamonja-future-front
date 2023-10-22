@@ -4,6 +4,8 @@ env: standard
 
 instance_class: F1
 
+entrypoint: npm run start:server
+
 automatic_scaling:
   min_idle_instances: automatic
   max_idle_instances: 1
@@ -15,6 +17,6 @@ handlers:
   - url: /(.*\..+)$
     static_files: dist/\1
     upload: dist/(.*\..+)$
-  - url: /.*
+  - url: /(game/.*|character)$
     static_files: dist/index.html
     upload: dist/index.html
